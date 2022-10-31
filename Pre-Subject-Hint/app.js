@@ -55,7 +55,7 @@ app.use(
     }));
 
 app.get('/', (_, res) => res.redirect(301, '/index.html'));
-app.get('/users', (_, res) => res.send(JSON.stringify(users)))
+app.get('/users', (_, res) => res.send(JSON.stringify(users))) // 전체 사용자 조회 코드
 app.get('/create', (_, res) => res.redirect(301, '/create.html'));
 app.get('/read', (_, res) => res.redirect(301, '/read.html'));
 app.get('/update', (_, res) => res.redirect(301, '/update.html'));
@@ -76,7 +76,17 @@ app.get('/rid', (req, res) => {
 });
 
 // 사용자 정보 수정
+app.post('/uid', upload.single('image'), (req, res) => {
+    const { id, name, birth, gender } = req.body;
+    id in users ? users[id] = { name, birth, gender, 'img': req.file?.path ?? '' }
+    : res.send(`존재하지 않은 ID: ${id}`);
+    res.redirect(301, '/index.html');
+});
 
 // 사용자 정보 삭제
+app.get('/did', (req, res) => {
+    const id = req?.query?.id;
+    id in users ? delete users[id] : res.send(`존재하지 않은 ID: ${id}`);
+});
 
 app.listen(app.get('port'), () => console.log(`${app.get('port')} 번 포트에서 대기 중`));
