@@ -79,16 +79,16 @@ app.get('/rid', (req, res) => {
 app.post('/uid', upload.single('image'), (req, res) => {
     const { id, name, birth, gender } = req.body;
     if (id in users) {
-        if (req.body.name != '') {
+        if (name != '') {
             users[id].name = req.body.name
         }
-        if (req.body.birth != '') {
+        if (birth != '') {
             users[id].birth = req.body.birth
         }
-        if (req.body.gender != null) {
+        if (gender != null) {
             users[id].gender = req.body.gender
         }
-        if (req.body.img != null) {
+        if (req.file?.path != null) {
             users[id].img = req.file?.path
         }
         res.redirect(301, '/index.html');
@@ -99,8 +99,14 @@ app.post('/uid', upload.single('image'), (req, res) => {
 // 사용자 정보 삭제
 app.get('/did', (req, res) => {
     const id = req?.query?.id;
-    id in users ? delete users[id] : res.send(`존재하지 않은 ID: ${id}`);
-    res.redirect(301, '/index.html');
-});
+    if (id in users) {
+        // const ext = path.extname(`${id.img}`)
+        delete users[id];
+        fs.unlink(`${users[id].img}`, err => {res.send(`에러입니다.`)});
+    }
+    else {
+        res.send(`존재하지 않은 ID: ${id}`);
+    }
+})
 
 app.listen(app.get('port'), () => console.log(`${app.get('port')} 번 포트에서 대기 중`));
