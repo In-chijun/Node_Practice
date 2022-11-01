@@ -78,15 +78,29 @@ app.get('/rid', (req, res) => {
 // 사용자 정보 수정
 app.post('/uid', upload.single('image'), (req, res) => {
     const { id, name, birth, gender } = req.body;
-    id in users ? users[id] = { name, birth, gender, 'img': req.file?.path ?? '' }
-    : res.send(`존재하지 않은 ID: ${id}`);
-    res.redirect(301, '/index.html');
+    if (id in users) {
+        if (req.body.name != '') {
+            users[id].name = req.body.name
+        }
+        if (req.body.birth != '') {
+            users[id].birth = req.body.birth
+        }
+        if (req.body.gender != null) {
+            users[id].gender = req.body.gender
+        }
+        if (req.body.img != null) {
+            users[id].img = req.file?.path
+        }
+        res.redirect(301, '/index.html');
+    }
+    else res.send(`존재하지 않은 ID: ${id}`);
 });
 
 // 사용자 정보 삭제
 app.get('/did', (req, res) => {
     const id = req?.query?.id;
     id in users ? delete users[id] : res.send(`존재하지 않은 ID: ${id}`);
+    res.redirect(301, '/index.html');
 });
 
 app.listen(app.get('port'), () => console.log(`${app.get('port')} 번 포트에서 대기 중`));
