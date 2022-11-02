@@ -107,7 +107,6 @@ app.get('/did', (req, res) => {
     const id = req?.query?.id;
     const _img = users[id].img;
     if (id in users) {
-        // const ext = path.extname(`${id.img}`)
         delete users[id];
         fs.unlink(`${_img}`, err => {if (err) throw err});
         res.redirect(301, '/index.html');
