@@ -65,8 +65,14 @@ app.get('/delete', (_, res) => res.redirect(301, '/delete.html'));
 // 사용자 정보 추가
 app.post('/cid', upload.single('image'), (req, res) => {
     const { id, name, birth, gender } = req.body;
-    users[id] = { name, birth, gender, 'img': req.file?.path ?? '' };
-    res.redirect(301, '/index.html');
+    if (id in users) {
+        res.status(404).send('중복된 ID입니다.')
+    }
+    else {
+        users[id] = { name, birth, gender, 'img': req.file?.path ?? '' };
+        console.log(users);
+        res.redirect(301, '/index.html');
+    }
 });
 
 // 사용자 정보 조회
@@ -99,10 +105,12 @@ app.post('/uid', upload.single('image'), (req, res) => {
 // 사용자 정보 삭제
 app.get('/did', (req, res) => {
     const id = req?.query?.id;
+    const _img = users[id].img;
     if (id in users) {
         // const ext = path.extname(`${id.img}`)
         delete users[id];
-        fs.unlink(`${users[id].img}`, err => {res.send(`에러입니다.`)});
+        fs.unlink(`${_img}`, err => {if (err) throw err});
+        res.redirect(301, '/index.html');
     }
     else {
         res.send(`존재하지 않은 ID: ${id}`);
