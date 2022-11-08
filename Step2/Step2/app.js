@@ -41,14 +41,14 @@ app.use(
 
 app.use('/info', infoRouter); // 주소의 경로가 /info일 경우 infoRouter로 가라는 뜻
 
-// app.use((req, res, next) => {
-//     next('Not found error!')
-// });
+app.use((req, res, next) => {
+    next('Not found error!')
+});
 
-// app.use((err, req, res, next) => {
-//     console.error(err);
-//     res.status(500).send(err);
-// });
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).send(err);
+});
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), '번 포트에서 대기 중');
