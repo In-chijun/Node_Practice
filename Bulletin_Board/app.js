@@ -55,12 +55,12 @@ app.use(
     }));
 
 app.get('/', (_, res) => res.redirect(301, '/index.html'));
-app.get('/postings', (_, res) => res.send(JSON.stringify(postings))) // 전체 사용자 조회 코드
+app.get('/postings', (_, res) => res.send(JSON.stringify(postings)))
 app.get('/create', (_, res) => res.redirect(301, '/create.html'));
 app.get('/read', (_, res) => res.redirect(301, '/read.html'));
 app.get('/update', (_, res) => res.redirect(301, '/update.html'));
 app.get('/delete', (_, res) => res.redirect(301, '/delete.html'));
-
+app.get('/uploads', (_, res) => res.redirect(301, '/albumUploads.html'));
 
 // 게시글 등록
 app.post('/cid', (req, res) => {
@@ -86,16 +86,29 @@ app.post('/uid', (req, res) => {
     else res.send(`존재하지 않은 ID: ${id}`);
 });
 
-// 사용자 정보 삭제
-app.get('/did', (req, res) => {
-    const id = req?.query?.id;
-    if (id in postings) {
-        delete postings[id];
-        res.redirect(301, '/index.html');
+// 사용자 정보 추가
+app.post('/cid', upload.single('image'), (req, res) => {
+    const { id, name, birth, gender } = req.body;
+    if (id in users) {
+        res.status(404).send('중복된 ID입니다.')
     }
     else {
-        res.send(`존재하지 않은 ID: ${id}`);
+        users[id] = { name, birth, gender, 'img': req.file?.path ?? '' };
+        console.log(users);
+        res.redirect(301, '/index.html');
     }
-})
+});
+
+// 사진 업로드
+app.post('/uploads', (req, res, next) => {
+    const {id} = req.body;
+    if (id in postings) {
+        res.status(404).send('중복된 ID입니다.')
+    }
+    else {
+        postings[id] = {'img' : req.file?.path ?? '' };
+        upload.array('files', 10)(req, res, next);
+    }
+}, (req, res) => res.send(req.files));
 
 app.listen(app.get('port'), () => console.log(`${app.get('port')} 번 포트에서 대기 중`));
