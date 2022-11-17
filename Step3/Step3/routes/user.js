@@ -7,7 +7,7 @@ const router = express.Router();
 router.route('/')
     .get(async (req, res, next) => {
         try {
-            const users = await User.findAll({
+            const users = await User.findAll({ //데이터베이스에서 모든 id를 조회하는 것.
                 attributes: ['id']
             });
 
@@ -23,7 +23,7 @@ router.route('/')
     .post(async (req, res, next) => {
         const { id, password, name, description } = req.body;
 
-        const user = await User.findOne({ where: { id } });
+        const user = await User.findOne({ where: { id } }); // 데이터베이스에서 인자로 전해진 id 하나만 찾는 기능
         if (user) {
             next('이미 등록된 사용자 아이디입니다.');
             return;
@@ -31,7 +31,7 @@ router.route('/')
 
         try {
             const hash = await bcrypt.hash(password, 12);
-            await User.create({
+            await User.create({ // 행 추가. 즉, 정보 추가
                 id,
                 password: hash,
                 name,

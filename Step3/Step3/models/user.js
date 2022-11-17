@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class User extends Sequelize.Model { // 그냥 테이블이다. 깊게 보려고 하는 것보다, 전체적인 것을 이해하자.
     static init(sequelize) {
         return super.init({
             id: {

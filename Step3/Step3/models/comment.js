@@ -4,7 +4,7 @@ module.exports = class Comment extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       comment: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING(100), // 최대 100 byte의 문자열 전달
         allowNull: false
       }
     }, {
