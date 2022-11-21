@@ -33,6 +33,7 @@ router.get('/data', async (req, res, next) => {
                 model: Comment
             }
         });
+        
         res.json(users);
     } catch (err) {
         console.error(err);

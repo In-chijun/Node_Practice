@@ -10,7 +10,7 @@ router.route('/')
     })
     .post(async (req, res, next) => {
         const { userId, comment } = req.body;
-
+ 
         try {
             await Comment.create({ userId, comment });
             res.redirect('/');

@@ -29,8 +29,8 @@ sequelize.sync({ force: false }) // models.index에서 db를 Sequelize에 할당
   .catch(err => console.error(err));
 
 // 미들웨어가 순차적으로 실행된다. (req, res, next)
-app.use( // use함수의 인자로 전달할 수 있는 값은 요청객체, 응답객체, next함수만 가능하다. 다음 전달된 각 함수가 next를 호출하면서 다음으로 넘길 수 있다.
-    morgan('dev'), //클라이언트의 요청을 기록하여 출력해주는 역할ㅁ
+app.use( // use함수의 인자로 전달할 수 있는 값은 미들웨어(요청객체, 응답객체, next함수)만 가능하다. 다음 전달된 각 함수가 next를 호출하면서 다음으로 넘길 수 있다.
+    morgan('dev'), //클라이언트의 요청을 기록하여 출력해주는 역할
     express.static(path.join(__dirname, 'public')), // 폴더 내의 정적을 파일들이 있으면 호출해줌. 하지만 public 폴더를 호출하고 있으니 이 코드에서는 의미가 없는 줄이라고 봐도 된다.
     express.json(),
     express.urlencoded({ extended: false }),
