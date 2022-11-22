@@ -55,7 +55,7 @@ app.use(
     }));
 
 app.get('/', (_, res) => res.redirect(301, '/index.html'));
-app.get('/postings', (_, res) => res.send(JSON.stringify(postings)))
+app.get('/postings', (_, res) => res.send(JSON.stringify(postings)));
 app.get('/create', (_, res) => res.redirect(301, '/create.html'));
 app.get('/read', (_, res) => res.redirect(301, '/read.html'));
 app.get('/update', (_, res) => res.redirect(301, '/update.html'));
@@ -86,18 +86,17 @@ app.post('/uid', (req, res) => {
     else res.send(`존재하지 않은 ID: ${id}`);
 });
 
-// 사용자 정보 추가
-app.post('/cid', upload.single('image'), (req, res) => {
-    const { id, name, birth, gender } = req.body;
-    if (id in users) {
-        res.status(404).send('중복된 ID입니다.')
-    }
-    else {
-        users[id] = { name, birth, gender, 'img': req.file?.path ?? '' };
-        console.log(users);
+// 게시글 삭제
+app.get('/did', (req, res) => {
+    const id = req?.query?.id;
+    if (id in postings) {
+        delete postings[id];
         res.redirect(301, '/index.html');
     }
-});
+    else {
+        res.send(`존재하지 않은 ID: ${id}`);
+    }
+})
 
 // 사진 업로드
 app.post('/uploads', (req, res, next) => {

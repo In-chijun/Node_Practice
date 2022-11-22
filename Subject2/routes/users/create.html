@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>주일 학교: Report 2</title>
+</head>
+
+<body>
+    <form id="form" action="/userInfo/cid" method="post" enctype="application/x-www-form-urlencoded">
+        학생 등록<br><br>
+        <input style="width: 200px" type="text" name="id" placeholder="ID" required /><br>
+        <input style="width: 200px" type="text" name="name" placeholder="Name" required /><br>
+        
+        <br>
+        <input type="radio" name="gender" value="Man" checked />Man
+        <input type="radio" name="gender" value="Woman" />Woman
+        <br><br>
+
+        <button style="width: 200px" type="submit">추가</button>
+        <br>
+    </form>
+</body>
