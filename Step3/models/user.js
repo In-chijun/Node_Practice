@@ -34,5 +34,6 @@ module.exports = class User extends Sequelize.Model { // 그냥 테이블이다.
 
     static associate(db) {
         db.User.hasMany(db.Comment, { foreignKey: 'userId', sourceKey: 'id', onDelete: 'cascade' });
+        db.User.hasOne(db.Info, { foreignKey: 'userId', sourceKey: 'id' });
     }
 };

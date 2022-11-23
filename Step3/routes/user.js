@@ -21,7 +21,7 @@ router.route('/')
         }
     })
     .post(async (req, res, next) => {
-        const { id, password, name, description } = req.body;
+        const { id, password, name, description, age } = req.body;
 
         const user = await User.findOne({ where: { id } }); // 데이터베이스에서 인자로 전해진 id 하나만 찾는 기능
         if (user) {
@@ -36,6 +36,9 @@ router.route('/')
                 password: hash,
                 name,
                 description
+            });
+            await Info.create({
+                age
             });
 
             res.redirect('/');
@@ -96,7 +99,10 @@ router.get('/:id', async (req, res, next) => {
     try {
         const user = await User.findOne({
             where: { id: req.params.id },
-            attributes: ['id', 'name', 'description']
+            attributes: ['id', 'name', 'description'],
+            include: [{
+                model: Info
+            }]
         });
         res.json(user);
     } catch (err) {
