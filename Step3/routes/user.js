@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt')
 const User = require('../models/user');
+const Info = require('../models/info');
 
 const router = express.Router();
 
@@ -24,6 +25,7 @@ router.route('/')
         const { id, password, name, description, age } = req.body;
 
         const user = await User.findOne({ where: { id } }); // 데이터베이스에서 인자로 전해진 id 하나만 찾는 기능
+        const userId = id;
         if (user) {
             next('이미 등록된 사용자 아이디입니다.');
             return;
@@ -38,6 +40,7 @@ router.route('/')
                 description
             });
             await Info.create({
+                userId,
                 age
             });
 
@@ -100,9 +103,9 @@ router.get('/:id', async (req, res, next) => {
         const user = await User.findOne({
             where: { id: req.params.id },
             attributes: ['id', 'name', 'description'],
-            include: [{
+            include: {
                 model: Info
-            }]
+            }
         });
         res.json(user);
     } catch (err) {

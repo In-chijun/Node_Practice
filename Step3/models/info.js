@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 module.exports = class Info extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
-            id: {
+            age: {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
@@ -20,7 +20,7 @@ module.exports = class Info extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.Info.bolongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
+        db.Info.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
     }
 };
     
