@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class User extends Sequelize.Model { // 그냥 테이블이다. 깊게 보려고 하는 것보다, 전체적인 것을 이해하자.
+module.exports = class User extends Sequelize.Model {
     static init(sequelize) {
         return super.init({
             id: {
@@ -10,7 +10,7 @@ module.exports = class User extends Sequelize.Model { // 그냥 테이블이다.
             },
             password: {
                 type: Sequelize.STRING(100),
-                allowNull: false
+                allowNull: true
             },
             name: {
                 type: Sequelize.STRING(20),
@@ -34,6 +34,5 @@ module.exports = class User extends Sequelize.Model { // 그냥 테이블이다.
 
     static associate(db) {
         db.User.hasMany(db.Comment, { foreignKey: 'userId', sourceKey: 'id', onDelete: 'cascade' });
-        db.User.hasOne(db.Info, { foreignKey: 'userId', sourceKey: 'id' });
     }
 };
