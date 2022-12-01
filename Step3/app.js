@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    res.sendFile()
+    res.sendFile();
     console.error(err);
     res.status(500).send(err);
 });
