@@ -54,19 +54,19 @@ passport.session()
 
 - 로그인 과정
 
-1. 로그인 요청이 들어옴
+1. 로그인 요청이 들어옴 (\routes\auth)
 
 ```
 router.post('/login', (req, res, next) => {});
 ```
 
-2. passport.authenticate 호출
+2. passport.authenticate 호출 (\routes\auth)
 
 ```
 passport.authenticate('local', (error, user, info) => {})(req, res, next);
 ```
 
-3. 로그인 전략 수행
+3. 로그인 전략 수행 (\passport\local)
 
 ```
 passport.use(new Strategy({
