@@ -1,11 +1,11 @@
 {
-  "name": "step4",
+  "name": "wep-project",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
     "start": "nodemon"
   },
-  "author": "Prof. Wonvin Kim, Computer Software, Korean Bibie University",
+  "author": "Daniel",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
