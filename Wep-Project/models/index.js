@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const User = require('./user');
-const Comment = require('./comment');
+const Classes = require('./classes');
+const ClassStudent = require('./classStudent');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[env];
@@ -14,13 +15,16 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = User;
-db.Comment = Comment;
+db.Classes = Classes;
+db.ClassStudent = ClassStudent;
 
 User.init(sequelize);
-Comment.init(sequelize);
+Classes.init(sequelize);
+ClassStudent.init(sequelize);
 
 User.associate(db);
-Comment.associate(db);
+Classes.associate(db);
+ClassStudent.associate(db);
 
 module.exports = db;
 

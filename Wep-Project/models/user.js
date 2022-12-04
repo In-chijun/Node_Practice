@@ -33,6 +33,6 @@ module.exports = class User extends Sequelize.Model {
     }
 
     static associate(db) {
-        db.User.hasMany(db.Comment, { foreignKey: 'userId', sourceKey: 'id', onDelete: 'cascade' });
+        db.User.belongsToMany(db.Classes, { through: 'ClassStudent', foreignKey: 'id' });
     }
 };

@@ -14,7 +14,7 @@ const passportConfig = require('./passport'); // 해당 위치에서 index.js를
 
 const authRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
-const commentRouter = require('./routes/comment');
+const classesRouter = require('./routes/classes');
 const indexRouter = require('./routes');
 
 dotenv.config();
@@ -57,7 +57,7 @@ app.use(passport.session());
 
 app.use('/auth', authRouter); // /auth로 접근하면 authRouter을 호출하는 것. authRouter require는 위에 선언되어 있다.
 app.use('/user', userRouter);
-app.use('/comment', commentRouter);
+app.use('/classes', classesRouter);
 app.use('/', indexRouter);
 
 app.use((req, res, next) => {
